@@ -1,0 +1,22 @@
+.signOutBtn{
+    display: flex;
+    align-items: center;
+}
+.signOutBtn mat-icon{
+    padding-left: 16px; 
+    color: black; 
+    transform: scale(.75);
+}
+.signOutBtn button{
+    background-color: transparent; 
+    color: rgb(0, 0, 0); 
+    width: 200px;
+    display: flex;
+    font-weight: bold;
+}
+.signOutBtn:hover{
+    background-color: rgba(0, 0, 1, 0.2);
+}
+// .signOutBtn button:hover{
+//     background-color: rgba(0, 0, 1, 0.2);
+// }

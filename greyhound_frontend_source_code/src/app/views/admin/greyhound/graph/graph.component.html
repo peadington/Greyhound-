@@ -1,0 +1,113 @@
+<div *ngIf="isLoading">
+  <mat-progress-spinner [mode]="'indeterminate'" class="matSpinner"></mat-progress-spinner>
+</div>
+<div class="banner-section">
+  <div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <mat-toolbar *ngIf="selectedGreyhound && selectedTrainer" class="toolbar" style="background:
+      none; color:white;">
+      <div>
+        <h3> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; TRAINER :
+          {{selectedTrainer.name}}</h3>
+        <button mat-icon-button (click)="backBtn()" style="font-size: 40px;
+          background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+          line-height: 0px;"><mat-icon>arrow_back</mat-icon></button>
+        <span style="font-size: 50px; font-weight: bold; padding-left: 20px;">{{selectedGreyhound.name}}</span>
+        <br>
+        <p style="font-weight: normal; color: white;">{{selectedGreyhound.stats}}</p>
+      </div>
+      <span style="flex: 1 0;"></span>
+      <div>
+      </div>
+    </mat-toolbar>
+    <br>
+    <br>
+  </div>
+</div>
+<form *ngIf="!formGroup.invalid" [formGroup]="formGroup" class="filterDiv">
+  <mat-form-field appearance="outline">
+    <mat-label>Track</mat-label>
+    <mat-select formControlName="track" (selectionChange)="onSelectionChangeTrack($event.value);" multiple>
+      <mat-option [value]="element.name" *ngFor="let element of trackData">{{
+        element.name
+        }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Trainer</mat-label>
+    <mat-select formControlName="trainer" (selectionChange)="onSelectionChangeTrainer($event.value);">
+      <mat-option [value]="element.id" *ngFor="let element of trainerData">{{
+        element.name
+        }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Greyhound</mat-label>
+    <mat-select formControlName="greyhoundId" (selectionChange)="onSelectionChangeGreyhound($event.value);">
+      <mat-option [value]="element.greyhoundId" *ngFor="let element of greyhoundList">{{
+        element.name
+        }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Distance</mat-label>
+    <mat-select formControlName="distance">
+      <mat-option value="0">All</mat-option>
+      <mat-option [value]="element" *ngFor="let
+        element of distanceData">{{element}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Class</mat-label>
+    <mat-select formControlName="grade">
+      <mat-option value="all">All</mat-option>
+      <mat-option [value]="element" *ngFor="let
+        element of gradeData">{{element}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button (click)="getGreyhoundData()" class="searchBtn" mat-raised-button [disabled]="formGroup.invalid">View
+    Graph</button>
+  &nbsp;
+  <button (click)="reset()" class="searchBtn" style="background: orange;" mat-raised-button>Clear</button>
+</form>
+<table class="table" style="color: black;">
+  <tr style="background: orange">
+    <th>Days</th>
+    <ng-container *ngFor="let element of lineChartLabels">
+      <th>{{element}}</th>
+    </ng-container>
+  </tr>
+  <tbody>
+    <tr style="background: rgba(0, 0, 1, 0.2);;">
+      <td><b>Rating</b></td>
+      <ng-container *ngFor="let element of ratingYaces">
+        <td>{{element}}</td>
+      </ng-container>
+    </tr>
+    <tr style="background: rgba(0, 0, 1, 0.2);;">
+      <td><b>Prize</b></td>
+      <ng-container *ngFor="let element of prizeMoneyYaces">
+        <td>£{{element}}</td>
+      </ng-container>
+    </tr>
+    <tr style="background: rgba(0, 0, 1, 0.2);;">
+      <td><b>Win</b></td>
+      <ng-container *ngFor="let element of winYaces">
+        <td>{{element}}</td>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>
+<div class="mainDiv">
+  <div>
+    <div class="chartDiv">
+      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+        [title]="chartOptions.title" (labelActivate)="legendLabelActivate($event)"
+        (labelDeactivate)="legendLabelDeactivate($event)"></apx-chart>
+    </div>
+  </div>
+</div>

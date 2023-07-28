@@ -1,0 +1,115 @@
+/*
+ *
+ *   EGRET - Angular Material Design Admin Template
+ *
+ *
+*/
+
+// // Third pirty style files
+// // Sidebar Scroll
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+
+// // Flag icon
+// @import '~flag-icon-css/css/flag-icon.min.css';
+@import "~flag-icons/css/flag-icons.min.css";
+
+// // Rich Text Editor
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.snow.css";
+
+// // Drag and Drop
+@import "~dragula/dist/dragula.css";
+
+// // Calendar
+@import "angular-calendar/scss/angular-calendar.scss";
+
+// // User tour
+@import "~hopscotch/dist/css/hopscotch.min.css";
+
+// // Page loader Topbar
+@import "../../vendor/pace/pace-theme-min.css";
+
+// // Highlightjs theme
+@import "~highlight.js/styles/github.css";
+
+// Main Variables File
+@import "scss/variables";
+
+@import "scss/mixins/mixins";
+@import "scss/colors";
+
+@import "scss/animations";
+
+// Open _main.scss and keep files which are required for your current layout.
+@import "scss/main/main";
+
+// Angular material theme files
+@import "scss/themes/init";
+
+@import "scss/utilities/utilities";
+@import "scss/components/components";
+@import "scss/palette";
+
+@import "scss/page-layouts";
+
+// Open _views.scss and remove unnecessary view related files
+@import "scss/views/views";
+
+// .mat-mdc-select-value {
+//     color: white !important;
+// }
+// .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+//     color: white;
+// }
+// .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+//     color: white;
+// }
+// .mat-mdc-select-arrow {
+//     color: white;
+// }
+// .mat-mdc-paginator-icon {
+//      fill: white !important;
+// }
+// .mat-mdc-icon-button svg {
+//     color: white !important;
+// }
+// .mat-form-field-appearance-outline .mat-form-field-outline {
+//     color: black !important;
+//   }
+
+// @media screen and (max-width: 800px) {
+
+//     .mat-mdc-text-field-wrapper {
+//         height: 47px !important;
+//     }
+// }
+
+.banner-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/assets/images/greyhound1.jpg");
+    background-size: 100% 100%;
+    height: 233px;
+    margin-top: -8px;
+
+    .banner-top {
+        text-align: right;
+        padding: 10px 10px 0 0;
+
+        button {
+            height: 48px;
+            margin-top: -8px;
+        }
+    }
+}
+
+.form {
+    display: flex;
+    // gap: 5px;
+    // flex-wrap: wrap;
+    margin-top: 10px;
+    // align-items: center;
+    // justify-content: space-evenly;
+}
+
+table {
+    width: 100%;
+}

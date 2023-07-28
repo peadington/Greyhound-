@@ -1,0 +1,137 @@
+.mat-header-cell {
+  background: #222a45;
+  color: white;
+}
+.filterDiv {
+  display: flex;
+  margin-top: 10px;
+}
+
+.formBg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/assets/images/greyhound1.jpg");
+  background-size: 100% 100%;
+  height: 233px;
+  margin-top: -19px;
+  margin-right: -5px;
+}
+.searchBtn {
+  height: 53px !important;
+  width: 195px !important;
+  font-size: 16px;
+}
+.tableHeading {
+  background-color: rgb(51 52 57);
+}
+th {
+  color: white;
+}
+tr.tableRow:not(.tableHeading):hover {
+  background: lightgray;
+}
+.exportBtn {
+  background-color: rgb(51 52 57) !important;
+  color: white !important;
+  width: 150px !important;
+}
+.graphBtn button {
+  background-color: rgb(51 52 57) !important;
+  color: white !important;
+  float: right;
+  margin: 10px;
+  width: 155px !important;
+}
+.graphBtn button[disabled] {
+  background-color: grey !important;
+  color: white !important;
+  float: right;
+  margin: 10px;
+  width: 155px !important;
+}
+i {
+  transform: scale(1.5);
+}
+.formDiv img {
+  background-size: 100% auto;
+  opacity: 0.5;
+  position: absolute;
+  z-index: -1;
+  width: 99%;
+  height: 235px;
+}
+.exportAndGraphBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+// exportBtn
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.matSpinner {
+  position: absolute;
+  margin-left: 46%;
+  margin-top: 15%;
+  z-index: 1100;
+}
+@media screen and (max-width: 800px) {
+  .filterDiv {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100px;
+    flex-wrap: wrap;
+    margin-top: -190px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .filterDiv mat-form-field {
+    width: 150px;
+    height: 61px;
+    font-size: 10px;
+  }
+  .tableDiv {
+    margin-top: 4px;
+    width: 373px;
+    margin-left: -20px !important;
+  }
+  .formDiv img {
+    height: 200px;
+  }
+  .formBg {
+    height: 200px;
+    margin-top: -19px;
+  }
+  .searchBtn {
+    height: 47px !important;
+    width: 150px !important;
+    font-size: 16px;
+    margin-top: -14px;
+  }
+  .searchAllBtn {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+  }
+  .matSpinner {
+    margin-left: 36%;
+    margin-top: 65%;
+  }
+  .exportAndGraphBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 35px;
+  }
+  .greyHoundDetails {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: scroll;
+    margin-top: 25px;
+  }
+}

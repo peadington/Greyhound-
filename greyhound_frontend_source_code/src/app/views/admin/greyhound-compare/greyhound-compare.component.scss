@@ -1,0 +1,193 @@
+table {
+  width: 100%;
+}
+.mainDiv {
+  padding: 20px;
+}
+
+.filterDiv {
+  display: flex;
+}
+
+.searchBtn {
+  height: 52px !important;
+  width: 200px !important;
+  font-size: 16px;
+}
+
+.tableHeading {
+  background: rgb(51 52 57);
+  color: white;
+}
+th {
+  color: white;
+}
+.tableDiv {
+  height: 400px;
+  overflow-y: scroll;
+  margin-bottom: 20px;
+}
+tr.tableRow:not(.tableHeading):hover {
+  background-color: lightgray;
+}
+.filterDiv mat-form-field {
+  width: 24%;
+}
+
+.mainFilterBtn {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.filterBtn {
+  height: 40px !important;
+  width: 200px !important;
+  font-size: 16px;
+}
+.example-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow-y: scroll;
+  display: block;
+  height: 150px;
+}
+.listDiv {
+  display: block;
+  width: 17%;
+  margin-top: 30px;
+}
+.arrowDiv {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+  align-items: center;
+}
+.example-box {
+  padding: 10px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  // cursor: move;
+  background: white;
+  font-size: 14px;
+}
+.detailsDiv {
+  display: flex;
+  justify-content: space-between;
+}
+.chartDiv {
+  width: 76%;
+  margin-top: 20px;
+  height: 370px;
+}
+.formDiv img {
+  background-size: 100% auto;
+  opacity: 0.5;
+  position: absolute;
+  z-index: -1;
+  height: 235px;
+  width: 100%;
+}
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.matSpinner {
+  position: absolute;
+  margin-left: 46%;
+  margin-top: 15%;
+  z-index: 1100;
+}
+
+@media screen and (max-width: 800px) {
+  .formDiv img {
+    height: 180px;
+  }
+  .formBg {
+    height: 180px;
+  }
+  .filterDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: -191px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .filterDiv mat-form-field {
+    width: 150px;
+    height: 61px;
+    font-size: 10px;
+  }
+  .searchBtn {
+    height: 45px !important;
+    width: 150px !important;
+    font-size: 16px;
+  }
+  .tableDiv {
+    margin-top: 50px;
+  }
+  .searchAndExportBtn {
+    text-align: center;
+    margin-top: 46px;
+    position: relative;
+    z-index: 10;
+  }
+  .detailsDiv {
+    display: block;
+    margin-top: 45px;
+  }
+  .listDiv {
+    display: flex;
+    width: 105%;
+  }
+  .example-list {
+    /* border: solid 1px #ccc; */
+    /* min-height: 60px; */
+    /* background: white; */
+    /* border-radius: 4px; */
+    /* overflow-y: scroll; */
+    /* display: block; */
+    height: 170px;
+    width: 139px;
+  }
+  .arrowDiv {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 4px;
+    align-items: center;
+    flex-direction: column;
+  }
+  .arrowDiv mat-icon {
+    transform: rotate(90deg);
+  }
+  .chartDiv {
+    width: 100%;
+  }
+  .matSpinner {
+    margin-left: 36%;
+    margin-top: 65%;
+  }
+}
+
+
+.example-handle {
+  // position: absolute;
+  // top: 10px;
+  // right: 10px;
+  color: #ccc;
+  cursor: move;
+  width: 24px;
+  height: 24px;
+}

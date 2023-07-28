@@ -1,0 +1,144 @@
+table {
+  width: 100%;
+}
+.mainDiv {
+  padding: 20px;
+}
+.filterDiv {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filterDiv {
+  margin-top: 20px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: -188px;
+  position: relative;
+  z-index: 2;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.formBg {
+  background-color: black;
+  height: 233px;
+  z-index: -2;
+  position: relative;
+  margin-top: -19px;
+  margin-right: -5px;
+}
+.searchBtn {
+  height: 53px !important;
+  // width: 270px !important;
+  font-size: 16px;
+}
+
+.tableHeading {
+  background: rgb(51 52 57);
+  color: white;
+}
+th {
+  color: white;
+}
+.tableDiv {
+  // height: 400px;
+  // overflow-y: scroll;
+  // margin-bottom: 20px;
+  margin-top: 30px;
+}
+tr.tableRow:not(.tableHeading):hover {
+  background-color: lightgray;
+}
+.filterDiv mat-form-field {
+  width: 270px;
+}
+
+.mainFilterBtn {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.filterBtn {
+  height: 40px !important;
+  width: 200px !important;
+  font-size: 16px;
+}
+.formDiv img {
+  background-size: 100% auto;
+  opacity: 0.5;
+  position: absolute;
+  z-index: -1;
+  height: 235px;
+  width: 100%;
+}
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+.searchAndExportBtn {
+  text-align: center;
+  margin-top: 20px;
+}
+.matSpinner {
+  position: absolute;
+  margin-left: 46%;
+  margin-top: 15%;
+  z-index: 1100;
+}
+.filterDiv mat-icon {
+  color: white !important;
+}
+
+@media screen and (max-width: 800px) {
+  .filterDiv {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: -188px;
+    position: relative;
+    z-index: 2;
+  }
+  .filterDiv mat-form-field {
+    width: 106px;
+    height: 61px;
+    font-size: 10px;
+  }
+  .tableDiv {
+    margin-top: 4px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: scroll;
+    // margin-left: -20px !important;
+  }
+  .formDiv img {
+    height: 200px;
+  }
+  .formBg {
+    height: 200px;
+    margin-top: -19px;
+  }
+  .searchAndExportBtn {
+    text-align: center;
+    margin-top: -34px;
+    margin-left: 113px;
+    position: relative;
+    z-index: 10;
+  }
+  .searchBtn {
+    height: 47px !important;
+    width: 106px !important;
+    font-size: 16px;
+    margin-top: -14px;
+  }
+  .matSpinner {
+    margin-left: 36%;
+    margin-top: 65%;
+  }
+}

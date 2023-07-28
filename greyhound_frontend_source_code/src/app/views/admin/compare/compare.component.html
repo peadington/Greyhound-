@@ -1,0 +1,71 @@
+<div *ngIf="isLoading">
+  <mat-progress-spinner [mode]="'indeterminate'" style=" position: absolute;
+    margin-left: 46%;
+    margin-top: 15%;"></mat-progress-spinner>
+</div>
+<mat-toolbar class="bg-none">
+  <div>
+    <span class="breadcrumb-heading">Compare</span>
+  </div>
+</mat-toolbar>
+<div class="mainDiv">
+  <div>
+    <form [formGroup]="formGroup" class="filterDiv">
+      <mat-form-field appearance="outline">
+        <mat-label>Name:</mat-label>
+        <input matInput formControlName="name" (focusout)="searchByName()" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Chart Kind</mat-label>
+        <mat-select formControlName="chartKind" (selectionChange)="getCharts()">
+          <mat-option [value]="element" *ngFor="let element of chartKindData">{{
+            element }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="detailsDiv">
+    <div class="listDiv">
+      <div
+        cdkDropList
+        #greyhoundNamesList="cdkDropList"
+        [cdkDropListData]="greyhoundNames"
+        [cdkDropListConnectedTo]="[selectedNamesList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of greyhoundNames" cdkDrag>{{item.name}}</div>
+      </div>
+      <div class="arrowDiv">
+        <mat-icon>arrow_upward</mat-icon>
+        <mat-icon>arrow_downward</mat-icon>
+      </div>
+      <div
+        cdkDropList
+        #selectedNamesList="cdkDropList"
+        [cdkDropListData]="selectedNames"
+        [cdkDropListConnectedTo]="[greyhoundNamesList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of selectedNames" cdkDrag>{{item.name}}</div>
+      </div>
+    </div>
+
+    <div class="chartDiv">
+      <!-- <canvas baseChart
+  [data]="barChartData"
+  [options]="barChartOptions"
+  [plugins]="barChartPlugins"
+  [legend]="barChartLegend"
+  [type]="'bar'">
+</canvas> -->
+      <canvas
+        height="240"
+        baseChart
+        class="chart m-0"
+        [datasets]="lineChartSteppedData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"></canvas>
+    </div>
+  </div>
+</div>

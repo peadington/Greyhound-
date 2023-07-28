@@ -1,0 +1,289 @@
+<div *ngIf="isLoading">
+  <mat-progress-spinner [mode]="'indeterminate'" class="matSpinner"></mat-progress-spinner>
+</div>
+<div class="banner-section">
+  <div class="banner-top">
+    <mat-form-field class="example-full-width" style="line-height: 1px; height:
+      70px;">
+      <input type="text" placeholder="Search greyhound...." aria-label="Number" matInput
+        [formControl]="searchGreyhoundFormControl" [matAutocomplete]="auto" (input)="onInputGreyhound()">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+        (optionSelected)='optionSelectedGreyhound($event.option.value)'>
+        <mat-option *ngFor="let option of filteredGreyhoundOptions" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <!-- <button
+        matSuffix
+        mat-icon-button
+        type="button"
+        aria-label="Clear">
+        <mat-icon>search</mat-icon>
+      </button> -->
+    </mat-form-field>
+    &nbsp;
+    <button mat-raised-button [disabled]="formGroup.invalid" (click)="export()">
+      <i class="fas fa-file-excel fa-spin"></i>
+    </button>
+  </div>
+  <div>
+    <br>
+    <br>
+    <br>
+    <mat-toolbar *ngIf="selectedGreyhound && selectedTrainer && !greyhoundInfo" class="toolbar" style="background:
+      none; color:white;">
+      <div>
+        <h3> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; TRAINER :
+          {{selectedTrainer.name}}</h3>
+        <span style="font-size: 50px; font-weight: bold; padding-left: 20px;">{{selectedGreyhound.greyhoundName}}</span>
+        <br>
+        <p style="font-weight: normal; color: white;">{{selectedGreyhound.stats}}</p>
+      </div>
+      <span style="flex: 1 0;"></span>
+      <div>
+      </div>
+    </mat-toolbar>
+    <mat-toolbar *ngIf="!selectedGreyhound && !_activatedRoute.snapshot.params.greyhoundId && !greyhoundInfo"
+      class="toolbar" style="background:
+      none; color:white;">
+      <div>
+        <span style="font-size: 50px; font-weight: bold; padding-left: 20px;">Greyhound</span>
+      </div>
+      <span style="flex: 1 0;"></span>
+      <div>
+      </div>
+    </mat-toolbar>
+    <mat-toolbar *ngIf="_activatedRoute.snapshot.params.greyhoundId || greyhoundInfo" class="toolbar" style="background:
+      none; color:white;">
+      <div>
+        <h3> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; TRAINER :
+          {{greyhoundInfo.trainerName}}</h3>
+        <span style="font-size: 50px; font-weight: bold; padding-left: 20px;">{{greyhoundInfo.greyhoundName}}</span>
+        <br>
+        <p style="font-weight: normal; color: white;">{{greyhoundInfo.stats}}</p>
+      </div>
+      <span style="flex: 1 0;"></span>
+      <div>
+      </div>
+    </mat-toolbar>
+    <br>
+    <br>
+  </div>
+</div>
+<form [formGroup]="formGroup" class="filterDiv">
+  <mat-form-field appearance="outline">
+    <mat-label>From</mat-label>
+    <input matInput formControlName="fromDate" [matDatepicker]="start" placeholder="Start Date" readonly
+      (dateChange)="onFromDateChange($event.value)">
+    <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+    <mat-datepicker #start></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>To</mat-label>
+    <input matInput formControlName="toDate" [min]="formGroup.get('fromDate').value" [matDatepicker]="end"
+      placeholder="End Date" readonly (dateChange)="onToDateChange($event.value)">
+    <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+    <mat-datepicker #end></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Track</mat-label>
+    <mat-select formControlName="track" (selectionChange)="onSelectionChangeTrack($event.value);" multiple>
+      <mat-option [value]="element.name" *ngFor="let element of trackData">{{
+        element.name
+        }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Trainer</mat-label>
+    <mat-select formControlName="trainer" (selectionChange)="onSelectionChangeTrainer($event.value);">
+      <mat-option [value]="element.id" *ngFor="let element of trainerData">{{
+        element.name
+        }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Greyhound</mat-label>
+    <mat-select formControlName="greyhoundId" (selectionChange)="onSelectionChangeGreyhound($event.value);">
+      <mat-option [value]="element.greyhoundId" *ngFor="let element of greyhoundList">{{
+        element.greyhoundName
+        }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Distance</mat-label>
+    <mat-select formControlName="distance">
+      <mat-option value="0">All</mat-option>
+      <mat-option [value]="element" *ngFor="let
+        element of distanceData">{{element}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Class</mat-label>
+    <mat-select formControlName="grade">
+      <mat-option value="all">All</mat-option>
+      <mat-option [value]="element" *ngFor="let
+        element of gradeData">{{element}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button (click)="getGreyhoundData()" class="searchBtn" mat-raised-button
+    [disabled]="formGroup.invalid">Search</button>
+  &nbsp;
+  <button (click)="showGraph()" class="searchBtn" mat-raised-button [disabled]="formGroup.invalid">View Graph</button>
+  &nbsp;
+  <button (click)="reset()" class="searchBtn" style="background: orange;" mat-raised-button>Clear</button>
+</form>
+<div class="detailTable" *ngIf="dataSource.length">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="icon">
+      <th mat-header-cell *matHeaderCellDef>
+        <i class="fa-solid fa-flag-checkered"></i>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <i class="fa-solid fa-dog"></i>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef style="width: 120px;">Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="track">
+      <th mat-header-cell *matHeaderCellDef>Track</th>
+      <td mat-cell *matCellDef="let element">{{ element.track }}</td>
+    </ng-container>
+    <ng-container matColumnDef="distance">
+      <th mat-header-cell *matHeaderCellDef>Distance</th>
+      <td mat-cell *matCellDef="let element">{{ element.distance }}
+        {{distanceUnit}} </td>
+    </ng-container>
+    <ng-container matColumnDef="grade">
+      <th mat-header-cell *matHeaderCellDef>Grade</th>
+      <td mat-cell *matCellDef="let element">{{ element.grade }}</td>
+    </ng-container>
+    <ng-container matColumnDef="stmhcp">
+      <th mat-header-cell *matHeaderCellDef>StmHcp</th>
+      <td mat-cell *matCellDef="let element">{{ element.sTmHcp | number:'1.2-2'
+        }}</td>
+    </ng-container>
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Position</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    </ng-container>
+    <ng-container matColumnDef="winTime">
+      <th mat-header-cell *matHeaderCellDef>Win Time</th>
+      <td mat-cell *matCellDef="let element">{{ element.winTime | number:'1.2-2'
+        }}</td>
+    </ng-container>
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef>Weight</th>
+      <td mat-cell *matCellDef="let element">{{ element.weight | number:'1.2-2'
+        }}</td>
+    </ng-container>
+    <ng-container matColumnDef="calcTm">
+      <th mat-header-cell *matHeaderCellDef>Calc Tm</th>
+      <td mat-cell *matCellDef="let element">{{ element.calcTm | number:'1.2-2'
+        }}</td>
+    </ng-container>
+    <ng-container matColumnDef="rating">
+      <th mat-header-cell *matHeaderCellDef>Rating</th>
+      <td mat-cell *matCellDef="let element">{{ element.rating }}</td>
+    </ng-container>
+    <ng-container matColumnDef="prizeMoney">
+      <th mat-header-cell *matHeaderCellDef>Prize Money</th>
+      <td mat-cell *matCellDef="let element">{{curruncySymbol}} {{
+        element.prizeMoney | number:'1.2-2' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="comment">
+      <th mat-header-cell *matHeaderCellDef>Comment</th>
+      <td mat-cell *matCellDef="let element">
+        <div [id]="'show-comment-' + element.id">
+          {{ element.comment }} <a (click)="editComment(element)"><mat-icon>edit</mat-icon></a>
+        </div>
+        <div [id]="'edit-comment-' + element.id" style="display: none;">
+          <mat-form-field>
+            <mat-label>Comment</mat-label>
+            <input type="text" matInput [value]="element.comment" [(ngModel)]="element.comment"
+              (change)="saveComment(element)">
+          </mat-form-field>
+        </div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="detailUrl">
+      <th mat-header-cell *matHeaderCellDef>Details</th>
+      <td mat-cell *matCellDef="let element"><a href="{{element.greyhoundUrl}}" target="_blank">
+          <mat-icon>link</mat-icon>
+        </a></td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="birthday">
+      <th mat-header-cell *matHeaderCellDef>Birthday</th>
+      <td mat-cell *matCellDef="let element">{{ element.birthday }}</td>
+    </ng-container>
+    <ng-container matColumnDef="trainerName">
+      <th mat-header-cell *matHeaderCellDef>Trainer</th>
+      <td mat-cell *matCellDef="let element">{{ element.trainer }}</td>
+    </ng-container>
+    <!-- <ng-container matColumnDef="action">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="rightPadding"
+        style="text-align: right; justify-content: flex-end">
+        Actions
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="rightPadding"
+        style="text-align: right; justify-content: flex-end">
+        <button
+          mat-icon-button
+          color="primary"
+          [matMenuTriggerFor]="action">
+          <mat-icon> more_vert </mat-icon>
+        </button>
+        <mat-menu #action="matMenu">
+          <button mat-menu-item (click)="viewRaceDetails(row)">
+            <mat-icon style="cursor: pointer" color="primary">
+              details
+            </mat-icon>
+            View Race Details
+          </button>
+          <button
+            mat-menu-item
+            (click)="showGraph(row.greyhoundId, row.greyhoundName)">
+            <mat-icon style="cursor: pointer; color: #32a852">poll
+            </mat-icon>
+            View Graph
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container> -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="showGraph()"><mat-icon>arrow_right</mat-icon></button>
+      </td>
+    </ng-container>
+    <tr class="tableHeading" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="tableRow" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  </table>
+
+</div>
+<div *ngIf="dataSource.length">
+  <mat-paginator [ngClass]="{ 'pointer-events-none': isLoading }" [length]="pagination?.totalCount"
+    [pageIndex]="pagination?.currentPage - 1" [pageSize]="pagination?.perPage"
+    [pageSizeOptions]="_utilityService.PAGINATION_OPTIONS" [showFirstLastButtons]="true"
+    (page)="getNextPageData($event)">
+  </mat-paginator>
+</div>
+<div *ngIf="!dataSource.length" style=" margin-top: 97px;
+  display: flex;
+  justify-content: center;
+  font-size: 20px;">
+  <p>No Data Available!</p>
+</div>

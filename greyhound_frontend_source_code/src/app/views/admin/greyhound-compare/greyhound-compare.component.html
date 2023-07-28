@@ -1,0 +1,179 @@
+<div *ngIf="isLoading">
+    <mat-progress-spinner [mode]="'indeterminate'" class="matSpinner"></mat-progress-spinner>
+</div>
+<div class="banner-section">
+    <div class="banner-top">
+        <button mat-raised-button [disabled]="formGroup.invalid" (click)="export()">
+            <i class="fas fa-file-excel fa-spin"></i>
+        </button>
+    </div>
+    <div>
+        <br>
+        <br>
+        <br>
+        <mat-toolbar class="toolbar" style="background:
+            none; color:white;">
+            <div>
+                <span style="font-size: 50px; font-weight: bold; padding-left:
+                    20px;">Dog Compare</span>
+            </div>
+        </mat-toolbar>
+        <br>
+        <br>
+    </div>
+</div>
+
+<form [formGroup]="formGroup" class="form">
+    <mat-form-field appearance="outline">
+        <mat-label>From</mat-label>
+        <input matInput formControlName="fromDate" [matDatepicker]="start" placeholder="Start Date" readonly
+            (dateChange)="onFromDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+        <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>To</mat-label>
+        <input matInput formControlName="toDate" [min]="formGroup.get('fromDate').value" [matDatepicker]="end"
+            placeholder="End Date" readonly (dateChange)="onToDateChange($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+        <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Track</mat-label>
+        <mat-select formControlName="track" (selectionChange)="onSelectionChangeTrack($event.value);refreshDropList()">
+            <mat-option [value]="element.name" *ngFor="let element of trackList">{{
+                element.name
+                }}</mat-option>
+        </mat-select>
+        <button *ngIf="formGroup.controls.track.value" matSuffix mat-icon-button type="button" aria-label="Clear"
+            (click)="formGroup.controls.track.setValue(null);
+            $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Trainer</mat-label>
+        <mat-select formControlName="trainer"
+            (selectionChange)="onSelectionChangeTrainer($event.value);refreshDropList()" multiple>
+            <!-- <mat-select-trigger>
+                        {{formGroup.get('trainer')?.value}}
+                    </mat-select-trigger>
+                    <input #multiUserSearch type="text" autocomplete="off"
+                        matInput
+                        placeholder="Search trainer"
+                        (input)="onInputChangesTrainer($event)" style="height:
+                        40px;" /> -->
+            <mat-option [value]="element.id" *ngFor="let element of trainerList">{{
+                element.name
+                }}</mat-option>
+        </mat-select>
+        <button *ngIf="formGroup.controls.trainer.value" matSuffix mat-icon-button type="button" aria-label="Clear"
+            (click)="formGroup.controls.trainer.setValue(null);
+            $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <!-- <mat-form-field appearance="outline">
+                <mat-label>Greyhound</mat-label>
+                <mat-select
+                    formControlName="greyhound" multiple>
+                    <mat-option [value]="element.greyhoundId"
+                        *ngFor="let element of filteredGreyhoundList">{{
+                        element.name
+                        }}</mat-option>
+                </mat-select>
+                <button *ngIf="formGroup.controls.greyhound.value"
+                    matSuffix
+                    mat-icon-button
+                    type="button"
+                    aria-label="Clear"
+                    (click)="formGroup.controls.greyhound.setValue('All');
+                    $event.stopPropagation()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field> -->
+    <mat-form-field appearance="outline">
+        <mat-label>Distance</mat-label>
+        <mat-select formControlName="distance">
+            <mat-option value='0'> All
+            </mat-option>
+            <mat-option [value]="element" *ngFor="let element of
+                distanceData">{{ element }}</mat-option>
+        </mat-select>
+        <button *ngIf="formGroup.controls.distance.value" matSuffix mat-icon-button type="button" aria-label="Clear"
+            (click)="formGroup.controls.distance.setValue(0);
+            $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Chart Kind</mat-label>
+        <mat-select formControlName="chartKind" (selectionChange)="setGraphData()">
+            <mat-option [value]="element.value" *ngFor="let element of
+                chartKindData">{{ element.key }}</mat-option>
+        </mat-select>
+        <button *ngIf="formGroup.controls.chartKind.value" matSuffix mat-icon-button type="button" aria-label="Clear"
+            (click)="formGroup.controls.chartKind.setValue('stmhcp');
+            $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    <button class="searchBtn" mat-raised-button [disabled]="formGroup.invalid" (click)="search()">Search</button>
+    &nbsp;
+    <button (click)="reset()" class="searchBtn" style="background:
+        orange;" mat-raised-button>Clear</button>
+</form>
+
+<div class="detailsDiv">
+    <div class="listDiv">
+        <input type="text" #searchValue (input)="onChangeSearch(searchValue.value)" matInput placeholder="Search ...."
+            style="height: 30px; width: 95%; margin-bottom: 2px;">
+        <div cdkDropList #greyhoundNamesList="cdkDropList" [cdkDropListData]="filteredGreyhoundList"
+            [cdkDropListConnectedTo]="[selectedNamesList]" class="example-list">
+            <div class="example-box" *ngFor="let item of
+                filteredGreyhoundList" cdkDrag>{{item.greyhoundName}}
+                ({{item.trainerName}})
+                <div class="example-handle" cdkDragHandle>
+                    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5
+                            5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5
+                            5-5h-3v-3z"></path>
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="arrowDiv">
+            <mat-icon>arrow_upward</mat-icon>
+            <mat-icon>arrow_downward</mat-icon>
+            <button mat-icon-button (click)="refreshDropList()"> <mat-icon>refresh</mat-icon></button>
+        </div>
+        <div cdkDropList #selectedNamesList="cdkDropList" [cdkDropListData]="selectedNames"
+            [cdkDropListConnectedTo]="[greyhoundNamesList]" class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let item of selectedNames" cdkDrag>
+                {{item.greyhoundName}} ({{item.trainerName}})</div>
+        </div>
+    </div>
+
+    <div class="chartDiv">
+        <table class="table" style="color: black;" *ngIf="lineChartLabels?.length">
+            <tr style="background: orange">
+                <th style="text-align: left;color: black;">Greyhound</th>
+                <ng-container *ngFor="let element of lineChartLabels">
+                    <th>{{element}}</th>
+                </ng-container>
+            </tr>
+            <tbody>
+                <tr style="background: rgba(0, 0, 1, 0.2);;">
+                    <td><b>{{formGroup.controls.chartKind.value | titlecase}}</b></td>
+                    <ng-container *ngFor="let element of yacesData">
+                        <td>{{element}}</td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis" [title]="chartOptions.title"></apx-chart>
+    </div>
+</div>
